@@ -1,15 +1,34 @@
+dist: trusty
+sudo: required
+
 language: java
 
+jdk:
+  - oraclejdk8
+
+go:
+  - 1.11.4
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
+  yarn: true
   directories:
-  - $HOME/.m2
-
-sudo: false
-
-script: mvn clean install
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.cache/go-build
+    - $HOME/gopath/pkg/mod
+    - node_modules
 
 before_install:
-- wget -O ~/codacy-coverage-reporter-assembly-latest.jar https://github.com/codacy/codacy-coverage-reporter/releases/download/4.0.5/codacy-coverage-reporter-4.0.5-assembly.jar
+  - eval "$(GIMME_GO_VERSION=1.11.4 gimme)"
+  - sudo apt-get install jq
+  - wget -O ~/codacy-coverage-reporter-assembly-latest.jar https://github.com/codacy/codacy-coverage-reporter/releases/download/2.0.2/codacy-coverage-reporter-2.0.2-assembly.jar
+
+install: true
+
+script: mvn clean install
 
 after_success:
 - java -jar ~/codacy-coverage-reporter-assembly-latest.jar report -l Java -r target/site/jacoco/jacoco.xml
