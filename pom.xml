@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>8</java.version>
+        <itCoverageAgent></itCoverageAgent>
+        <maven.failsafe.plugin>2.18.1</maven.failsafe.plugin>
 	</properties>
 
 	<dependencies>
