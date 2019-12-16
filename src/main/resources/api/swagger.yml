@@ -1,0 +1,150 @@
+openapi: "3.0.2"
+info: 
+  title: Codechallenge API Specification
+  version: 1.0.0
+  description: Create transactions and search it.
+servers:
+  - url: http://localhost:8080/{basePath}
+    description: Codechallenge Local API
+    variables:
+      basePath: 
+        default: codechallenge/v1.0
+paths:
+  /transaction:
+    post:
+      tags:
+        - transaction
+      summary: Transaction storage
+      operationId: addTransaction
+      requestBody:
+         description: Transaction to create
+         required: true
+         content: 
+           application/json:
+             schema:
+               $ref: "#/components/schemas/Transaction"
+      responses:
+        '201':
+            description: Created
+        '400':
+            description: Client error
+        '500':
+            description: Server error
+    get:
+      tags:
+        - transaction
+      summary: Get all transactios
+      operationId: getTransactions
+      parameters:
+         - name: account_iban
+           in: query
+           description: The IBAN number of the account.
+           schema:
+              $ref: "#/components/schemas/Account_iban"
+           example: ES9820385778983000760236
+         - name: sort
+           in: query
+           description: Order.
+           schema:
+             type: string
+             enum: 
+               - asc
+               - desc
+      responses:
+        '200':
+          description: OK
+          content:
+           application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Transaction"
+        '400':
+            description: Client error
+        '500':
+            description: Server error
+  /transaction-status:
+    post:
+      tags:
+        - transaction
+      summary: Transaction status
+      description: Return the status and additional information for a specific transaction.
+      requestBody:
+        description: Data to retrieve a transaction status
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionStatusRequest"
+      required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionStatusResponse"
+components:
+  schemas:  
+    Amount:       
+      type: number
+      description: If positive the transaction is a credit (add money) to the account. If negative it is a debit (deduct money from the account).
+      example: 123.09
+    Fee:       
+      type: number
+      description: Fee that will be deducted from the amount, regardless on the amount being positive or negative.
+      example: 3.18
+    Reference:
+      type: string
+      description: The transaction unique reference number in our system.
+      example: 12345A
+    Account_iban:
+      type: string
+      description: 'The IBAN number of the account where the transaction happened.'
+      pattern: '^[a-zA-Z]{2}[0-9]{2}[a-zA-Z0-9]{4}[0-9]{7}([a-zA-Z0-9]?){0,16}$'
+    Transaction:
+      type: object
+      properties:
+        reference:
+          $ref: "#/components/schemas/Reference"
+        account_iban:
+          $ref: "#/components/schemas/Account_iban"
+        date:
+          type: string
+          format: date-time
+          description: Date when the transaction took place
+        amount:       
+          $ref: "#/components/schemas/Amount"
+        fee:
+          $ref: "#/components/schemas/Fee"
+        description:
+          type: string
+          nullable: false
+          description: The description of the transaction
+          example: Restaurant payment
+      required:
+        - account_iban
+        - amount
+    TransactionStatusRequest:
+      type: object
+      properties:
+        reference:
+          $ref: "#/components/schemas/Reference"
+        channel:
+          type: string 
+          description: 'The type of the channel that is asking for the status. It can be any of these values: CLIENT, ATM, INTERNAL'
+          enum: [CLIENT, ATM, INTERNAL]
+      required:
+        - reference
+    TransactionStatusResponse:
+      type: object
+      properties:
+        reference:
+          $ref: "#/components/schemas/Reference"
+        amount:       
+          $ref: "#/components/schemas/Amount"
+        fee:
+          $ref: "#/components/schemas/Fee"
+        status:
+          type: string 
+          description: 'The status of the transaction. It can be any of these values: PENDING, SETTLED, FUTURE, INVALID'
+          enum: [PENDING, SETTLED, FUTURE, INVALID]
