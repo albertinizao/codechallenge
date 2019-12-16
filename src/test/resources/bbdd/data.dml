@@ -1,0 +1,21 @@
+insert into APLICACIONES(ID_APLICACION, NOMBRE_APLICACION) values (1, 'MIAPP');
+insert into USUARIOS (ID_USUARIO, PASS_USER) 
+	values ('user', 'password');
+insert into USUARIOS (ID_USUARIO, PASS_USER) 
+	values ('otro_user', 'otra_password');
+insert into USUARIOS (ID_USUARIO, PASS_USER) 
+	values ('Opipo', 'copoglo2019Fake');
+insert into GRUPOS (ID_GRUPO, NOMBRE_GRUPO)
+	values (1, 'GRUPO 1');
+insert into GRUPOS (ID_GRUPO, NOMBRE_GRUPO)
+	values (2, 'GRUPO 2');
+insert into USUARIOS_GRUPOS (ID_USUARIO, ID_GRUPO)
+	values ('user', 1);
+insert into USUARIOS_GRUPOS (ID_USUARIO, ID_GRUPO)
+	values ('user', 2);
+insert into USUARIOS_GRUPOS (ID_USUARIO, ID_GRUPO)
+	values ('otro_user', 1);
+INSERT INTO OAUTH_CLIENT_DETAILS (CLIENT_ID, CLIENT_SECRET, SCOPES, AUTHORIZED_GRANT_TYPES, ACCESS_TOKEN_VALIDITY_SECONDS, REFRESH_TOKEN_VALIDITY_SECONDS, ID_APLICACION)
+	VALUES('client_id', 'client_secret', 'all', 'password', 3600, 3600, 1);
+INSERT INTO GRUPOS_APLICACIONES (ID_GRUPO, ID_APLICACION)
+	VALUES(1, 1);
