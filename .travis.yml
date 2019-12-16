@@ -39,3 +39,4 @@ branches:
   - master
   - stable
   - develop
+  - feature/ci
