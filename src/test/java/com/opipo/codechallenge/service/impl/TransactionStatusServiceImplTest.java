@@ -74,7 +74,7 @@ public class TransactionStatusServiceImplTest {
         transactionEntity.setReference(reference);
         transactionEntity.setDate(date);
         Mockito.when(transactionRepository.findById(reference)).thenReturn(Optional.of(transactionEntity));
-        Mockito.when(transactionStatusDateService.buildStatus(date)).thenReturn(status);
+        Mockito.when(transactionStatusDateService.buildStatus(date, channel)).thenReturn(status);
         Mockito.when(transactionStatusChannelService.calculateAmounts(Mockito.eq(channel), Mockito.any(),
                 Mockito.eq(transactionEntity))).thenReturn(actualResponsed);
 

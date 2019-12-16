@@ -44,6 +44,7 @@ import com.opipo.web.api.model.Transaction;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("TansactionServiceImpl test")
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class TransactionServiceImplTest {
 
     @InjectMocks

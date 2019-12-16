@@ -31,9 +31,10 @@ public class TransactionStatusServiceImpl implements TransactionStatusService {
         if (!transaction.isPresent()) {
             return new TransactionStatusResponse().reference(request.getReference()).status(StatusEnum.INVALID);
         } else {
-            return transactionStatusChannelService.calculateAmounts(
-                    request.getChannel(), new TransactionStatusResponse().reference(transaction.get().getReference())
-                            .status(transactionStatusDateService.buildStatus(transaction.get().getDate())),
+            return transactionStatusChannelService.calculateAmounts(request.getChannel(),
+                    new TransactionStatusResponse().reference(transaction.get().getReference())
+                            .status(transactionStatusDateService.buildStatus(transaction.get().getDate(),
+                                    request.getChannel())),
                     transaction.get());
         }
     }

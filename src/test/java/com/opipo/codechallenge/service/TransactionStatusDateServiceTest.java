@@ -12,8 +12,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.EnumSource.Mode;
 import org.mockito.MockitoAnnotations;
 
+import com.opipo.web.api.model.TransactionStatusRequest.ChannelEnum;
 import com.opipo.web.api.model.TransactionStatusResponse.StatusEnum;
 
 public abstract class TransactionStatusDateServiceTest {
@@ -79,29 +83,41 @@ public abstract class TransactionStatusDateServiceTest {
         assertTrue(transactionStatusDateService.isAfterToday(localDateTime));
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Given date before today then get Status Settled")
     @Execution(ExecutionMode.CONCURRENT)
-    public void givenBeforeTodayThenGetSettled() {
+    @EnumSource(value = ChannelEnum.class)
+    public void givenBeforeTodayThenGetSettled(ChannelEnum channel) {
         OffsetDateTime localDateTime = OffsetDateTime.now();
         localDateTime = localDateTime.minusDays(1l);
-        assertEquals(StatusEnum.SETTLED, transactionStatusDateService.buildStatus(localDateTime));
+        assertEquals(StatusEnum.SETTLED, transactionStatusDateService.buildStatus(localDateTime, channel));
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Given date today then get Status Pending")
     @Execution(ExecutionMode.CONCURRENT)
-    public void givenTodayThenGetPending() {
+    @EnumSource(value = ChannelEnum.class)
+    public void givenTodayThenGetPending(ChannelEnum channel) {
         OffsetDateTime localDateTime = OffsetDateTime.now();
-        assertEquals(StatusEnum.PENDING, transactionStatusDateService.buildStatus(localDateTime));
+        assertEquals(StatusEnum.PENDING, transactionStatusDateService.buildStatus(localDateTime, channel));
+    }
+
+    @ParameterizedTest
+    @DisplayName("Given date after today then get Status Future")
+    @Execution(ExecutionMode.CONCURRENT)
+    @EnumSource(value = ChannelEnum.class, mode = Mode.EXCLUDE, names = {"ATM"})
+    public void givenAfterTodayThenGeFuture(ChannelEnum channel) {
+        OffsetDateTime localDateTime = OffsetDateTime.now();
+        localDateTime = localDateTime.plusDays(1l);
+        assertEquals(StatusEnum.FUTURE, transactionStatusDateService.buildStatus(localDateTime, channel));
     }
 
     @Test
     @DisplayName("Given date after today then get Status Future")
     @Execution(ExecutionMode.CONCURRENT)
-    public void givenAfterTodayThenGeFuture() {
+    public void givenAfterTodayATMThenGeFuture() {
         OffsetDateTime localDateTime = OffsetDateTime.now();
         localDateTime = localDateTime.plusDays(1l);
-        assertEquals(StatusEnum.FUTURE, transactionStatusDateService.buildStatus(localDateTime));
+        assertEquals(StatusEnum.PENDING, transactionStatusDateService.buildStatus(localDateTime, ChannelEnum.ATM));
     }
 }
