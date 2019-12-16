@@ -2,7 +2,6 @@ package com.opipo.codechallenge.service;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.stream.Stream;
 
 import com.opipo.codechallenge.repository.model.TransactionEntity;
 

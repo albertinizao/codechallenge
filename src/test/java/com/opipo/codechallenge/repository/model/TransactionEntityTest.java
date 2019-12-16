@@ -84,7 +84,7 @@ public class TransactionEntityTest {
     @DisplayName("The object and a String aren't equals")
     public void givenObjectFromOtherClassReturnThatTheyArentEquals() {
         TransactionEntity o1 = new TransactionEntity();
-        assertNotEquals(o1, new String());
+        assertNotEquals(o1, "");
     }
 
     @Test

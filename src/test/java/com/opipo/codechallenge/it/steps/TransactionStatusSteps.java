@@ -9,8 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import javax.management.RuntimeErrorException;
-
 import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -21,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.opipo.codechallenge.repository.TransactionRepository;
 import com.opipo.codechallenge.repository.model.TransactionEntity;
-import com.opipo.web.api.model.Transaction;
 import com.opipo.web.api.model.TransactionStatusRequest;
 import com.opipo.web.api.model.TransactionStatusResponse;
 
@@ -104,7 +101,8 @@ public class TransactionStatusSteps implements En {
         });
 
         Then("the amount", () -> {
-            getResponseEntity().stream().forEach(c -> assertEquals(transactionEntity.getAmount(), c.getBody().getAmount()));
+            getResponseEntity().stream()
+                    .forEach(c -> assertEquals(transactionEntity.getAmount(), c.getBody().getAmount()));
         });
 
         Then("the fee", () -> {
@@ -146,7 +144,7 @@ public class TransactionStatusSteps implements En {
                 for (Executable executable : calls) {
                     executable.execute();
                 }
-                executed=true;
+                executed = true;
             }
         } catch (Throwable e) {
             throw new RuntimeException(e);
