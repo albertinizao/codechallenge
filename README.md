@@ -13,3 +13,9 @@ Dado que el documento explicativo del proyecto dejaba varios puntos abiertos, se
 -  Se ha utilizado el paralelismo de junit5 para utilizar varios hilos de ejecucuión y ejecutar pruebas simultáneas.
 -  Se validan los códigos de IBAN.
 -  El caso de prueba G de TransactionStatus, muestra un comportamiento distinto al resto. Aún así se ha implementado acorde a dicho caso.
+
+
+## Execution
+To test and build, in the project folder, run "mvn clean install"
+To execute, go to the project folder and run "java -jar target/codechallenge-0.0.1-SNAPSHOT.jar". Then, go to "http://localhost:8080". In the field "transaction" you could view the endpoints.
+To view swagger: "http://localhost:8080/v2/api-docs".
