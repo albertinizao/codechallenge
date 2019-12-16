@@ -13,7 +13,6 @@ import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -40,8 +39,6 @@ public class TransactionStatusSteps implements En {
     private TransactionEntity transactionEntity;
 
     private List<ResponseEntity<TransactionStatusResponse>> responseEntity = new ArrayList<>();
-
-    private List<HttpStatus> httpStatus = new ArrayList<>();
 
     private List<Executable> calls = new ArrayList<>();
 

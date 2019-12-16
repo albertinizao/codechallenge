@@ -17,6 +17,11 @@ import lombok.Data;
 @Table(name = "TRANSACTIONS")
 public class TransactionEntity implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1974964074131344472L;
+
     @Id
     private String reference;
 

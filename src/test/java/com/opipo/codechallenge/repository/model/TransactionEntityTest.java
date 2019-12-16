@@ -81,6 +81,32 @@ public class TransactionEntityTest {
     }
 
     @Test
+    @DisplayName("The same complex object are equals")
+    public void givenSameComplexObjReturnThatTheyAreEquals() {
+        TransactionEntity o1 = new TransactionEntity();
+        TransactionEntity o2 = new TransactionEntity();
+        String reference = Integer.toString(1);
+        String accountIban = Integer.toString(2);
+        OffsetDateTime date = this.buildOffsetDateTime();
+        BigDecimal amount = BigDecimal.valueOf(1.0D);
+        BigDecimal fee = BigDecimal.valueOf(2.0D);
+        String description = Integer.toString(3);
+        o1.setReference(reference);
+        o1.setAccountIban(accountIban);
+        o1.setDate(date);
+        o1.setAmount(amount);
+        o1.setDescription(description);
+        o1.setFee(fee);
+        o2.setReference(reference);
+        o2.setAccountIban(accountIban);
+        o2.setDate(date);
+        o2.setAmount(amount);
+        o2.setDescription(description);
+        o2.setFee(fee);
+        assertEquals(o1, o2);
+    }
+
+    @Test
     @DisplayName("The object and a String aren't equals")
     public void givenObjectFromOtherClassReturnThatTheyArentEquals() {
         TransactionEntity o1 = new TransactionEntity();
@@ -92,6 +118,32 @@ public class TransactionEntityTest {
     public void givenSameObjReturnSameHashCode() {
         TransactionEntity o1 = new TransactionEntity();
         TransactionEntity o2 = new TransactionEntity();
+        assertEquals(o1.hashCode(), o2.hashCode());
+    }
+
+    @Test
+    @DisplayName("The same complex object's hashcode are the same")
+    public void givenSameComplexObjReturnSameHashCode() {
+        TransactionEntity o1 = new TransactionEntity();
+        TransactionEntity o2 = new TransactionEntity();
+        String reference = Integer.toString(1);
+        String accountIban = Integer.toString(2);
+        OffsetDateTime date = this.buildOffsetDateTime();
+        BigDecimal amount = BigDecimal.valueOf(1.0D);
+        BigDecimal fee = BigDecimal.valueOf(2.0D);
+        String description = Integer.toString(3);
+        o1.setReference(reference);
+        o1.setAccountIban(accountIban);
+        o1.setDate(date);
+        o1.setAmount(amount);
+        o1.setDescription(description);
+        o1.setFee(fee);
+        o2.setReference(reference);
+        o2.setAccountIban(accountIban);
+        o2.setDate(date);
+        o2.setAmount(amount);
+        o2.setDescription(description);
+        o2.setFee(fee);
         assertEquals(o1.hashCode(), o2.hashCode());
     }
 }
