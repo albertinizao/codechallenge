@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>8</java.version>
 		<springfox.swagger.version>2.9.2</springfox.swagger.version>
-		<swagger.codegen.version>2.4.10</swagger.codegen.version>
+		<swagger.codegen.version>2.4.19</swagger.codegen.version>
 		<cucumber.java8.version>4.8.0</cucumber.java8.version>
 		<modelmapper.spring.version>2.3.0</modelmapper.spring.version>
 		<swagger.codegen.maven.plugin.version>3.0.14</swagger.codegen.maven.plugin.version>
